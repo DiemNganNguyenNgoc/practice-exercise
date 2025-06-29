@@ -1,7 +1,21 @@
 'use client'
 import Button from "@/component/ButtonComponent";
+import Input from "@/component/InputComponent";
 
 export default function Home() {
+  const validateNumber = (value: string) => {
+    const number = Number(value);
+    if (!Number.isInteger(number) || number < 0 || number > 10 || isNaN(number)) {
+      return "Chỉ nhập số nguyên từ 0-10";
+    }
+    return null;
+  };
+
+  const validateEmail = (value: string) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(value) ? null : "Sai định dạng email";
+  };
+
   return (
     <div className="w-full max-w-screen-lg mx-auto px-4 py-6 space-y-6">
 
@@ -66,6 +80,35 @@ export default function Home() {
           <Button variant="success" rounded="sm" state="loading">LOADING</Button>
           <Button variant="danger"rounded="md" state="disable">DISABLE</Button>
         </div>
+      </div>
+
+      {/* SECTION: Input */}
+      <div className="space-y-4">
+        <h2 className="text-xl font-extrabold">Input</h2>
+        <Input
+          label="Number"
+          type="number"
+          validate={validateNumber}
+        />
+        <Input
+          label="Email"
+          type="email"
+          validate={validateEmail}
+        />
+        <Input
+          label="Text"
+        />
+        <Input
+          label="Select"
+          type="select"
+          isComplex={true}
+          data={["Hi", "Hello", "Goodbye", "Bye", "See you again", "See you later"]}
+        />
+         <Input
+        label="Multi"
+        type="multi"
+        isComplex={true}
+        data={["Hi", "Hello", "Goodbye", "Bye", "See you again", "See you later", "See you soon"]}/>
       </div>
     </div>
   );
