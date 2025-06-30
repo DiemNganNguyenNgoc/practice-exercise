@@ -7,6 +7,13 @@ import Modal from "@/component/ModalComponent";
 export default function Home() {
 
   const [modalSize, setModalSize] = useState<null | "sm" | "md" | "lg" | "xl" | "2xl">(null);
+  const [modalType, setModalType] = useState<null | "none" | "onlyCancel" | "onlyConfirm" | "both">(null);
+
+  //Bien luu gia tri cac nut cancel va confirm
+  const cancelLabel = modalType === "onlyCancel" || modalType === "both" ? "Cancel" : undefined;
+  const confirmLabel = modalType === "onlyConfirm" || modalType === "both" ? "OK" : undefined;
+
+
 
   //Kiem tra du lieu Number
   const validateNumber = (value: string) => {
@@ -17,7 +24,7 @@ export default function Home() {
     return null;
   };
 
-  //Kiem tr du lieu Email
+  //Kiem tra du lieu Email
   const validateEmail = (value: string) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(value) ? null : "Sai định dạng email";
@@ -120,18 +127,50 @@ export default function Home() {
 
       {/* SECTION: Modal */}
       <div className="flex flex-wrap gap-2">
-        <h2 className="text-xl font-extrabold w-full">Modal</h2>
+        <h2 className="text-xl font-extrabold w-full">Modal - Size - Type</h2>
 
-        <Button onClick={() => setModalSize("sm")}>Show Modal sm</Button>
-        <Button onClick={() => setModalSize("md")}>Show Modal md</Button>
-        <Button onClick={() => setModalSize("lg")}>Show Modal lg</Button>
-        <Button onClick={() => setModalSize("xl")}>Show Modal xl</Button>
-        <Button onClick={() => setModalSize("2xl")}>Show Modal 2xl</Button>
+        {/* Modal size sm*/}
+        <Button onClick={() => {
+          setModalSize("sm");
+          setModalType("none")
+        }}>Show Modal sm - no button
+        </Button>
+
+        {/* Modal size md*/}
+        <Button onClick={() => {
+          setModalSize("md");
+          setModalType("onlyCancel")
+
+        }}>Show Modal md - only Cancel Button
+        </Button>
+
+        {/* Modal size lg*/}
+        <Button onClick={() => {
+          setModalSize("lg");
+          setModalType("onlyConfirm")
+        }}>Show Modal lg - only Confirm Button
+        </Button>
+
+        {/* Modal size xl*/}
+        <Button onClick={() => {
+          setModalSize("xl");
+          setModalType("both")
+        }}>Show Modal xl - both Button
+        </Button>
+
+        {/* Modal size 2xl*/}
+        <Button onClick={() => {
+          setModalSize("2xl");
+          setModalType("both")
+        }}>Show Modal 2xl - both Button
+        </Button>
 
         <Modal
           isOpen={modalSize !== null}
           size={modalSize || "md"}
           title={`Demo Modal Size ${modalSize}`}
+          cancelLabel={cancelLabel}
+          confirmLabel={confirmLabel}
           onCancel={() => setModalSize(null)}
           onConfirm={() => {
             alert("Success");
