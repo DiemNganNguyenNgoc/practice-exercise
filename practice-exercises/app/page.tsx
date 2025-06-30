@@ -1,8 +1,14 @@
 'use client'
+import { useState } from "react";
 import Button from "@/component/ButtonComponent";
 import Input from "@/component/InputComponent";
+import Modal from "@/component/ModalComponent";
 
 export default function Home() {
+
+  const [modalSize, setModalSize] = useState<null | "sm" | "md" | "lg" | "xl" | "2xl">(null);
+
+  //Kiem tra du lieu Number
   const validateNumber = (value: string) => {
     const number = Number(value);
     if (!Number.isInteger(number) || number < 0 || number > 10 || isNaN(number)) {
@@ -11,6 +17,7 @@ export default function Home() {
     return null;
   };
 
+  //Kiem tr du lieu Email
   const validateEmail = (value: string) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(value) ? null : "Sai định dạng email";
@@ -40,7 +47,7 @@ export default function Home() {
           <Button variant="primary" size="2xs">2XS</Button>
           <Button variant="secondary" size="xs">XS</Button>
           <Button variant="success" size="sm">SM</Button>
-          <Button variant="danger"size="md">MD</Button>
+          <Button variant="danger" size="md">MD</Button>
           <Button variant="info" size="lg">LG</Button>
           <Button variant="warning" size="xl">XL</Button>
           <Button variant="light" size="2xl">2XL</Button>
@@ -52,7 +59,7 @@ export default function Home() {
         <div className="flex flex-wrap gap-2">
           <Button variant="primary" rounded="none">NONE</Button>
           <Button variant="success" rounded="sm">SM</Button>
-          <Button variant="danger"rounded="md">MD</Button>
+          <Button variant="danger" rounded="md">MD</Button>
           <Button variant="info" rounded="lg">LG</Button>
           <Button variant="warning" rounded="xl">XL</Button>
           <Button variant="light" rounded="2xl">2XL</Button>
@@ -60,12 +67,12 @@ export default function Home() {
         </div>
       </div>
 
-       <div>
+      <div>
         <h2 className="text-xl font-extrabold mb-2">Button - Outline</h2>
         <div className="flex flex-wrap gap-2">
           <Button variant="primary" rounded="none" isOutline={true}>PRIMARY</Button>
           <Button variant="success" rounded="sm" isOutline={true}>SUCCESS</Button>
-          <Button variant="danger"rounded="md" isOutline={true}>DANGER</Button>
+          <Button variant="danger" rounded="md" isOutline={true}>DANGER</Button>
           <Button variant="info" rounded="lg" isOutline={true}>INFO</Button>
           <Button variant="warning" rounded="xl" isOutline={true}>WARNING</Button>
           <Button variant="light" rounded="2xl" isOutline={true}>LIGHT</Button>
@@ -76,9 +83,9 @@ export default function Home() {
       <div>
         <h2 className="text-xl font-extrabold mb-2">Button - State</h2>
         <div className="flex flex-wrap gap-2">
-           <Button variant="primary" rounded="none" state="default">DEFAULT</Button>
+          <Button variant="primary" rounded="none" state="default">DEFAULT</Button>
           <Button variant="success" rounded="sm" state="loading">LOADING</Button>
-          <Button variant="danger"rounded="md" state="disable">DISABLE</Button>
+          <Button variant="danger" rounded="md" state="disable">DISABLE</Button>
         </div>
       </div>
 
@@ -104,12 +111,44 @@ export default function Home() {
           isComplex={true}
           data={["Hi", "Hello", "Goodbye", "Bye", "See you again", "See you later"]}
         />
-         <Input
-        label="Multi"
-        type="multi"
-        isComplex={true}
-        data={["Hi", "Hello", "Goodbye", "Bye", "See you again", "See you later", "See you soon"]}/>
+        <Input
+          label="Multi"
+          type="multi"
+          isComplex={true}
+          data={["Hi", "Hello", "Goodbye", "Bye", "See you again", "See you later", "See you soon"]} />
       </div>
+
+      {/* SECTION: Modal */}
+      <div className="flex flex-wrap gap-2">
+        <h2 className="text-xl font-extrabold w-full">Modal</h2>
+
+        <Button onClick={() => setModalSize("sm")}>Show Modal sm</Button>
+        <Button onClick={() => setModalSize("md")}>Show Modal md</Button>
+        <Button onClick={() => setModalSize("lg")}>Show Modal lg</Button>
+        <Button onClick={() => setModalSize("xl")}>Show Modal xl</Button>
+        <Button onClick={() => setModalSize("2xl")}>Show Modal 2xl</Button>
+
+        <Modal
+          isOpen={modalSize !== null}
+          size={modalSize || "md"}
+          title={`Demo Modal Size ${modalSize}`}
+          onCancel={() => setModalSize(null)}
+          onConfirm={() => {
+            alert("Success");
+            setModalSize(null);
+          }}>
+          <p>
+            Đây là phần nội dung dài cho modal size "{modalSize}". Nội dung có thể bao gồm nhiều đoạn văn, liệt kê thông tin, hướng dẫn hoặc các điều khoản cụ thể.
+          </p>
+          <ul className="list-disc pl-5 mt-2 space-y-1">
+            <li>Nội dung dòng 1</li>
+            <li>Nội dung dòng 2</li>
+            <li>Nội dung dòng 3</li>
+            <li>Nội dung dòng 4</li>
+          </ul>
+        </Modal>
+      </div>
+
     </div>
   );
 }
