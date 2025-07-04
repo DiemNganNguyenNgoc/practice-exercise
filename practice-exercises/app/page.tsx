@@ -3,6 +3,21 @@ import { useState } from "react";
 import Button from "@/component/ButtonComponent";
 import Input from "@/component/InputComponent";
 import Modal from "@/component/ModalComponent";
+import Table from "@/component/TableComponent";
+
+interface User {
+  name: string;
+  email: string;
+  age: number;
+}
+
+const users: User[] = [
+  { name: "Alice", email: "alice@example.com", age: 25 },
+  { name: "Anna", email: "anna@example.com", age: 20 },
+  { name: "Becky", email: "becky@example.com", age: 23 },
+  { name: "Ben", email: "ben@example.com", age: 22 },
+  { name: "Bob", email: "bob@example.com", age: 21 },
+];
 
 export default function Home() {
 
@@ -187,7 +202,19 @@ export default function Home() {
           </ul>
         </Modal>
       </div>
+      <div>
+        <h2 className="text-xl font-extrabold w-full">Table</h2>
+        <Table<User>
+        columns={[
+          { header: "Name", key: "name" },
+          { header: "Email", key: "email" },
+          { header: "Age", key: "age" },
+        ]}
+        data={users}
+      />
 
+      </div>
     </div>
   );
 }
+ 
